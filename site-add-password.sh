@@ -13,9 +13,12 @@ site_url=${2}".christinewilson.ca"
 # create conf file
 sudo sh -c 'echo "<VirtualHost *:80>
 	<Directory /var/www/'$1'/public_html>
-		Options Indexes FollowSymLinks MultiViews
-		AllowOverride All
-		Require all granted
+		Options +FollowSymLinks +Multiviews +Indexes
+		AllowOverride None
+		AuthType basic
+		AuthName "private"
+		AuthUserFile /etc/apache2/.htpasswd
+		Require valid-user
 	</Directory>
 
 	ServerAdmin info@christinewilson.ca

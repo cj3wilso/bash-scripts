@@ -24,7 +24,13 @@ DIR_WWW="/var/www/"
 DIR_GIT="/var/git/"
 DIR_ENV="/var/env/"
 DIR_WP="/public_html/wp-content/themes/"
-#/var/www/wiki/public_html/wp-content/themes/wiki
+WORDTOREMOVE="_staging"
+THEME=$1
+#If _staging is part of variable then remove for theme
+if [[ $1 = *_staging* ]]
+then
+    THEME=${1//$WORDTOREMOVE/}
+fi
 
 function dir_create() {
 	sudo mkdir -p "$1"
@@ -50,17 +56,20 @@ if [ -z "$2" ]; then
 	echo '- Service name (optional): not provided'
 	GIT=$DIR_GIT$1.git
 	TMP=$DIR_TMP$1
-	WWW=$DIR_WWW$1$DIR_WP$1
+	WWW=$DIR_WWW$1$DIR_WP$THEME
 	ENV=$DIR_ENV$1
+	
+	# Create $WWW parent directory
+	sudo mkdir -p "$DIR_WWW$1$DIR_WP$THEME"
+	cd "$DIR_WWW$1$DIR_WP"
+	sudo chown -R www-data:www-data "$1"
+	sudo chmod -R g+rwX "$1"
 else
 	echo "- Service name (optional):" "$2"
 	GIT=$DIR_GIT$1.$2.git
 	TMP=$DIR_TMP$1.$2
-	WWW=$DIR_WWW$1$DIR_WP$1/$2
+	WWW=$DIR_WWW$1$DIR_WP$THEME/$2
 	ENV=$DIR_ENV$1/$2
-
-	# Create $WWW parent directory
-	dir_create "$DIR_WWW$1$DIR_WP$1"
 fi
 
 echo "- git:" "$GIT"
