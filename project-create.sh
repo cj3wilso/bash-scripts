@@ -115,6 +115,8 @@ cd \$TMP || exit
 cd / || exit
 rm -rf \$WWW
 mv \$TMP \$WWW
+#775 needed only for python files
+sudo find \$WWW -type f -print0 | xargs -0 sudo chmod 775
 # Do stuff like starting docker
 cd \$WWW || exit
 # docker-compose up -d --build
