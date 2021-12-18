@@ -12,7 +12,7 @@ site_url=${2}".christinewilson.ca"
 
 # create conf file
 sudo sh -c 'echo "<VirtualHost *:80>
-	<Directory /var/www/'$1'/public_html>
+	<Directory /var/www/html/'$1'>
 		Options +ExecCGI
 		DirectoryIndex index.py
 		AuthType basic
@@ -24,7 +24,7 @@ sudo sh -c 'echo "<VirtualHost *:80>
 
 	ServerAdmin info@christinewilson.ca
 	ServerName '$site_url'
-	DocumentRoot /var/www/'$1'/public_html
+	DocumentRoot /var/www/html/'$1'
 
 	ErrorLog \${APACHE_LOG_DIR}/error.log
 	CustomLog \${APACHE_LOG_DIR}/access.log combined

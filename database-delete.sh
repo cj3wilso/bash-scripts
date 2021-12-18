@@ -8,7 +8,7 @@ export PATH=/bin:/usr/bin:/usr/local/bin
 MYSQL_HOST='localhost'
 MYSQL_PORT='3306'
 MYSQL_USER='root'
-MYSQL_PASSWORD='57575757aA'
+MYSQL_PASSWORD='rUeJs@$f2'
  
 #################################################################
 

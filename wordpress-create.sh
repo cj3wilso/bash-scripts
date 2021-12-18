@@ -20,10 +20,11 @@
 # in the $TMP directory, then copy it to $WWW.
 
 DIR_TMP="/var/tmp/"
-DIR_WWW="/var/www/"
+DIR_WWW="/var/www/html/"
 DIR_GIT="/var/git/"
 DIR_ENV="/var/env/"
-DIR_WP="/public_html/wp-content/themes/"
+DIR_WP="/wp-content/themes/"
+DIR_HTML="/"
 WORDTOREMOVE="_staging"
 THEME=$1
 #If _staging is part of variable then remove for theme
@@ -61,6 +62,7 @@ if [ -z "$2" ]; then
 	
 	# Create $WWW parent directory
 	sudo mkdir -p "$DIR_WWW$1$DIR_WP$THEME"
+	cd "$DIR_WWW$1$DIR_WP$THEME" || exit
 	cd "$DIR_WWW$1$DIR_WP"
 	sudo chown -R www-data:www-data "$1"
 	sudo chmod -R g+rwX "$1"
@@ -112,6 +114,7 @@ sudo git config core.sharedRepository group
 cd hooks || exit
 
 # create a post-receive file
+# git --work-tree=path_to_website_folder --git-dir=path_to_git_directory checkout -f name_of_branch
 sudo tee post-receive <<EOF
 #!/bin/bash
 # The production directory

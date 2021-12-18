@@ -19,7 +19,7 @@ DB_BACKUP_PATH='/backup/dbbackup'
 MYSQL_HOST='localhost'
 MYSQL_PORT='3306'
 MYSQL_USER='root'
-MYSQL_PASSWORD='mysecret'
+MYSQL_PASSWORD='rUeJs@$f2'
 DATABASE_NAME='mydb'
 BACKUP_RETAIN_DAYS=30   ## Number of days to keep local backup copy
  

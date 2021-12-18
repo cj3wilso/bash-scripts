@@ -8,7 +8,7 @@ export PATH=/bin:/usr/bin:/usr/local/bin
 MYSQL_HOST='localhost'
 MYSQL_PORT='3306'
 MYSQL_USER='root'
-MYSQL_PASSWORD='57575757aA'
+MYSQL_PASSWORD='rUeJs@$f2'
 PROJECT_PASSWORD='575757aA'
 DATABASE_NAME='copy'
 TABLE_PREFIX='jyymliwhjxbt'
@@ -58,5 +58,5 @@ mysql -h ${MYSQL_HOST} \
 	"
 	
 echo "Updating wp-config to have current database and table prefix"	
-sed -i "s/default_/${TABLE_PREFIX}_/g" /var/www/${1}/public_html/wp-config.php
-sed -i "s/default/${1}/g" /var/www/${1}/public_html/wp-config.php
+sed -i "s/default_/${TABLE_PREFIX}_/g" /var/www/html/${1}/wp-config.php
+sed -i "s/default/${1}/g" /var/www/html/${1}/wp-config.php

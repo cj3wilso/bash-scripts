@@ -12,7 +12,7 @@ site_url=${2}".christinewilson.ca"
 
 # create conf file
 sudo sh -c 'echo "<VirtualHost *:80>
-	<Directory /var/www/'$1'/public_html>
+	<Directory /var/www/html/'$1'>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
 		Require all granted
@@ -20,7 +20,7 @@ sudo sh -c 'echo "<VirtualHost *:80>
 
 	ServerAdmin info@christinewilson.ca
 	ServerName '$site_url'
-	DocumentRoot /var/www/'$1'/public_html
+	DocumentRoot /var/www/html/'$1'
 
 	ErrorLog \${APACHE_LOG_DIR}/error.log
 	CustomLog \${APACHE_LOG_DIR}/access.log combined
@@ -28,7 +28,7 @@ sudo sh -c 'echo "<VirtualHost *:80>
 
 # restart apache
 echo "Enabling site in Apache... a2ensite $site_url"
-sudo sh -c 'a2ensite '$site_url
+sudo sh -c 'a2ensite '$site_url'.conf'
 
 echo "Restarting Apache..."
 sudo sh -c 'service apache2 reload'

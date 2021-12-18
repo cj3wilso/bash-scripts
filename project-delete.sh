@@ -15,12 +15,15 @@
 # - $ENV: a directory for the env variables
 
 DIR_TMP="/var/tmp/"
-DIR_WWW="/var/www/"
+DIR_WWW="/var/www/html/"
 DIR_GIT="/var/git/"
 DIR_ENV="/var/env/"
 
 function dir_delete() {
-        sudo rm -rf "$1"
+	DIR_STG="_staging"
+	sudo rm -rf "$1"
+	sudo rm -rf "$1$DIR_STG"
+	#r is recursive, f makes sure it only deletes if it finds the folder/file otherwise it skips without error
 }
 
 if [ $# -eq 0 ]; then
@@ -32,16 +35,16 @@ fi
 
 if [ -z "$2" ]; then
         echo '- Service name (optional): not provided'
-        GIT=$DIR_GIT$1.git
-        TMP=$DIR_TMP$1
         WWW=$DIR_WWW$1
+		GIT=$DIR_GIT$1.git
         ENV=$DIR_ENV$1
+		TMP=$DIR_TMP$1
 else
         echo "- Service name (optional):" "$2"
-        GIT=$DIR_GIT$1.$2.git
-        TMP=$DIR_TMP$1.$2
         WWW=$DIR_WWW$1/$2
+		GIT=$DIR_GIT$1.$2.git
         ENV=$DIR_ENV$1/$2
+        TMP=$DIR_TMP$1.$2	
 fi
 
 echo "- git:" "$GIT"
@@ -49,7 +52,7 @@ echo "- tmp:" "$TMP"
 echo "- www:" "$WWW"
 echo "- env:" "$ENV"
 
+dir_delete "$WWW"
 dir_delete "$GIT"
 dir_delete "$ENV"
-dir_delete "$WWW"
 dir_delete "$TMP"

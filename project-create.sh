@@ -20,10 +20,9 @@
 # in the $TMP directory, then copy it to $WWW.
 
 DIR_TMP="/var/tmp/"
-DIR_WWW="/var/www/"
+DIR_WWW="/var/www/html/"
 DIR_GIT="/var/git/"
 DIR_ENV="/var/env/"
-DIR_HTML="/public_html"
 
 if [ $# -eq 0 ]; then
 	echo 'No project name provided (mandatory)'
@@ -37,11 +36,11 @@ if [ -z "$2" ]; then
 	echo '- Service name (optional): not provided'
 	GIT=$DIR_GIT$1.git
 	TMP=$DIR_TMP$1
-	WWW=$DIR_WWW$1$DIR_HTML
+	WWW=$DIR_WWW$1
 	ENV=$DIR_ENV$1
 	
 	# Create $WWW parent directory
-	sudo mkdir -p "$DIR_WWW$1$DIR_HTML"
+	sudo mkdir -p "$DIR_WWW$1"
 	cd "$DIR_WWW"
 	sudo chown -R www-data:www-data "$1"
 	sudo chmod -R g+rwX "$1"
@@ -49,7 +48,7 @@ else
 	echo "- Service name (optional):" "$2"
 	GIT=$DIR_GIT$1.$2.git
 	TMP=$DIR_TMP$1.$2
-	WWW=$DIR_WWW$1$DIR_HTML/$2
+	WWW=$DIR_WWW$1/$2
 	ENV=$DIR_ENV$1/$2
 fi
 
