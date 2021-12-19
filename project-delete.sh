@@ -56,3 +56,16 @@ dir_delete "$WWW"
 dir_delete "$GIT"
 dir_delete "$ENV"
 dir_delete "$TMP"
+
+#Delete user from user config directory
+sudo rm "/etc/vsftpd/user_config_dir/$1"
+
+#Delete user from linux
+sudo userdel $1
+
+#Remove user line from userlist
+sudo grep -v "sweetiebee" /etc/vsftpd.userlist > tmpfile 
+sudo mv tmpfile /etc/vsftpd.userlist
+
+echo "Restarting Apache..."
+sudo sh -c 'service apache2 reload'

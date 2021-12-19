@@ -46,15 +46,38 @@ mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${1} < ${DATABASE_NAME}.sql
 
 #Updating URLs in project database
 echo "Updating URLs in project database: ${1}"	
+#If no domain provided
+if [ -z "$2" ]; then
+	mysql -h ${MYSQL_HOST} \
+		-P ${MYSQL_PORT} \
+		-u ${MYSQL_USER} \
+		-p${MYSQL_PASSWORD} \
+		${1} \
+		-e "
+		UPDATE ${TABLE_PREFIX}_options SET option_value = replace(option_value, 'https://${DATABASE_NAME}.christinewilson.ca', 'http://${1}.christinewilson.ca') WHERE option_name = 'home' OR option_name = 'siteurl';
+		UPDATE ${TABLE_PREFIX}_posts SET guid = replace(guid, 'https://${DATABASE_NAME}.christinewilson.ca','http://${1}.christinewilson.ca');
+		UPDATE ${TABLE_PREFIX}_postmeta SET meta_value = replace(meta_value,'https://${DATABASE_NAME}.christinewilson.ca','http://${1}.christinewilson.ca');
+		" 2>&1
+else
+	mysql -h ${MYSQL_HOST} \
+		-P ${MYSQL_PORT} \
+		-u ${MYSQL_USER} \
+		-p${MYSQL_PASSWORD} \
+		${1} \
+		-e "
+		UPDATE ${TABLE_PREFIX}_options SET option_value = replace(option_value, 'https://${DATABASE_NAME}.christinewilson.ca', 'https://${2}') WHERE option_name = 'home' OR option_name = 'siteurl';
+		UPDATE ${TABLE_PREFIX}_posts SET guid = replace(guid, 'https://${DATABASE_NAME}.christinewilson.ca','https://${2}');
+		UPDATE ${TABLE_PREFIX}_postmeta SET meta_value = replace(meta_value,'https://${DATABASE_NAME}.christinewilson.ca','https://${2}');
+		"
+fi
+
 mysql -h ${MYSQL_HOST} \
 	-P ${MYSQL_PORT} \
 	-u ${MYSQL_USER} \
 	-p${MYSQL_PASSWORD} \
 	${1} \
 	-e "
-	UPDATE ${TABLE_PREFIX}_options SET option_value = replace(option_value, 'http://${DATABASE_NAME}.christinewilson.ca', 'http://${1}.christinewilson.ca') WHERE option_name = 'home' OR option_name = 'siteurl';
-	UPDATE ${TABLE_PREFIX}_posts SET guid = replace(guid, 'http://${DATABASE_NAME}.christinewilson.ca','http://${1}.christinewilson.ca');
-	UPDATE ${TABLE_PREFIX}_postmeta SET meta_value = replace(meta_value,'http://${DATABASE_NAME}.christinewilson.ca','http://${1}.christinewilson.ca');
+	UPDATE ${TABLE_PREFIX}_users SET user_login = '${1}', user_nicename = '${1}', user_url = '' WHERE user_login = 'copy';
 	"
 	
 echo "Updating wp-config to have current database and table prefix"	
