@@ -64,8 +64,11 @@ sudo rm "/etc/vsftpd/user_config_dir/$1"
 sudo userdel $1
 
 #Remove user line from userlist
-sudo grep -v "sweetiebee" /etc/vsftpd.userlist > tmpfile 
+sudo grep -v "$1" /etc/vsftpd.userlist > tmpfile 
 sudo mv tmpfile /etc/vsftpd.userlist
+
+#not deleting domain sites
+#a2dissite 
 
 echo "Restarting Apache..."
 sudo sh -c 'service apache2 reload'

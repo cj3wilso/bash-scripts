@@ -27,7 +27,7 @@ sudo sh -c 'echo "<VirtualHost *:80>
 		Allow from all
 	</Directory>
 </VirtualHost>" >> /etc/apache2/sites-available/'$site_url'.conf'
-# restart apache
+# enable domain
 echo "Enabling site in Apache... a2ensite $site_url"
 sudo sh -c 'a2ensite '$site_url'.conf'
 sudo certbot certonly --agree-tos --email cj3wilso@gmail.com --webroot -w /var/lib/letsencrypt/ -d $site_url
@@ -70,5 +70,6 @@ sudo sh -c 'echo "<VirtualHost *:80>
 	</Directory>
 </VirtualHost>" >> /etc/apache2/sites-available/'$site_url'.conf'
 
+# restart apache
 echo "Restarting Apache..."
 sudo sh -c 'service apache2 reload'
