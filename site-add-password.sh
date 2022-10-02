@@ -36,9 +36,10 @@ sudo sh -c 'echo "<VirtualHost *:80>
 </VirtualHost>" >> /etc/apache2/sites-available/'$2'.christinewilson.ca.conf'
 # enable domain
 echo "Enabling site in Apache... a2ensite $site_url"
-sudo sh -c 'a2ensite '$site_url'.conf'
+sudo sh -c 'a2ensite '$2'.christinewilson.ca.conf'
 sudo certbot certonly --agree-tos --email cj3wilso@gmail.com --webroot -w /var/lib/letsencrypt/ -d $site_url
-sudo rm /etc/apache2/sites-available/$site_url.conf
+sudo sh -c 'a2dissite '$2'.christinewilson.ca.conf'
+sudo rm /etc/apache2/sites-available/$2.christinewilson.ca.conf
 sudo sh -c 'echo "<VirtualHost *:80>
 	ServerName '$site_url'
 	DocumentRoot /var/www/html/'$1'
@@ -68,7 +69,7 @@ sudo sh -c 'echo "<VirtualHost *:80>
 
 	<Directory /var/www/html/'$1'/>
 		Options +FollowSymLinks +Multiviews +Indexes
-		AllowOverride None
+		AllowOverride All
 		AuthType basic
 		AuthName "private"
 		AuthUserFile /etc/apache2/.htpasswd
@@ -77,5 +78,6 @@ sudo sh -c 'echo "<VirtualHost *:80>
 </VirtualHost>" >> /etc/apache2/sites-available/'$site_url'.conf'
 
 # restart apache
+sudo sh -c 'a2ensite '$site_url'.conf'
 echo "Restarting Apache..."
 sudo sh -c 'service apache2 reload'
